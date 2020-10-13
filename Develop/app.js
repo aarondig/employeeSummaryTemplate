@@ -12,6 +12,77 @@ const render = require("./lib/htmlRenderer");
 
 const employees = [];
 
+const managerPrompt = [ 
+    {
+      type: "input",
+      name: "name",
+      message: "What is your manager's name?"
+    },
+    {
+     type: "input",
+     name: "id",
+     message: "What is your manager's ID?"
+   },
+   {
+     type: "input",
+     name: "email",
+     message: "What is your manager's email?"
+   },
+   {
+     type: "input",
+     name: "officeNumber",
+     message: "What is your office number?"
+    }];
+const engineerPrompt = [ 
+    {
+     type: "input",
+     name: "name",
+     message: "What is your Engineer's name?"
+    },
+    {
+     type: "input",
+     name: "id",
+     message: "What is your Engineer's ID?"
+    },
+    {
+     type: "input",
+     name: "email",
+     message: "What is your Engineer's email?"
+    },
+    {
+     type: "input",
+     name: "github",
+     message: "What is your Engineer's GitHub username?"
+    }];
+const internPrompt = [ 
+    {
+     type: "input",
+     name: "name",
+     message: "What is your intern's name?"
+    },
+    {
+     type: "input",
+     name: "id",
+     message: "What is your intern's ID?"
+    },
+    {
+     type: "input",
+     name: "email",
+     message: "What is your intern's email?"
+    },
+    {
+     type: "input",
+     name: "school",
+     message: "Which school does your intern attend?"
+    }];
+const typeEmployee = [
+    {
+     type: "list",
+     name: "role",
+     message: "Which type of team member would you like to add?",
+     choices: ["Manager","Engineer","Intern", "None"]
+    }];
+
 function start() {
     return inquirer.prompt([
        {
@@ -28,7 +99,6 @@ function start() {
         }
     });
 }
-
 function manager() {
     inquirer.prompt(managerPrompt).then(function(managerResponse){
         const manager = new Manager (managerResponse.name, managerResponse.id, managerResponse.email, managerResponse.officeNumber);
@@ -37,29 +107,6 @@ function manager() {
         addEmployee();
     })
 }
-
-const managerPrompt = [ 
-       {
-         type: "input",
-         name: "name",
-         message: "What is your manager's name?"
-       },
-       {
-        type: "input",
-        name: "id",
-        message: "What is your manager's ID?"
-      },
-      {
-        type: "input",
-        name: "email",
-        message: "What is your manager's email?"
-      },
-      {
-        type: "input",
-        name: "officeNumber",
-        message: "What is your office number?"
-      }];
-
 function engineer() {
     inquirer.prompt(engineerPrompt).then(function(engineerResponse){
         const engineer = new Engineer (engineerResponse.name, engineerResponse.id, engineerResponse.email, engineerResponse.github);
@@ -68,29 +115,6 @@ function engineer() {
         addEmployee();
     })
 }
-
-const engineerPrompt = [ 
-       {
-         type: "input",
-         name: "name",
-         message: "What is your Engineer's name?"
-       },
-       {
-        type: "input",
-        name: "id",
-        message: "What is your Engineer's ID?"
-      },
-      {
-        type: "input",
-        name: "email",
-        message: "What is your Engineer's email?"
-      },
-      {
-        type: "input",
-        name: "github",
-        message: "What is your Engineer's GitHub username?"
-      }];
-
 function intern() {
     inquirer.prompt(internPrompt).then(function(internResponse){
         const intern = new Engineer (internResponse.name, internResponse.id, internResponse.email, internResponse.school);
@@ -99,30 +123,6 @@ function intern() {
         addEmployee();
     })
 }
-
-const internPrompt = [ 
-       {
-         type: "input",
-         name: "name",
-         message: "What is your intern's name?"
-       },
-       {
-        type: "input",
-        name: "id",
-        message: "What is your intern's ID?"
-      },
-      {
-        type: "input",
-        name: "email",
-        message: "What is your intern's email?"
-      },
-      {
-        type: "input",
-        name: "school",
-        message: "Which school does your intern attend?"
-      }];
-
-
 function addEmployee() {
     inquirer.prompt(typeEmployee).then(function(result){
         if (result.role == "Manager") {
@@ -135,19 +135,18 @@ function addEmployee() {
             intern();
         }
         if (result.role == "None") {
-            console.log("done");
-            render();
+            console.log("Check the run directory for a run.html file.");
+            renderCall();
         }
     })
 }
 
-const typeEmployee = [
-      {
-        type: "list",
-        name: "role",
-        message: "Which type of team member would you like to add?",
-        choices: ["Manager","Engineer","Intern", "None"]
-      }];
+function renderCall() {
+    fs.writeFile("../run/Run.html", render(employees),
+    function(err) {
+        if (err) throw err;
+    })
+}
 
 start();
 
