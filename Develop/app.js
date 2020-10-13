@@ -117,7 +117,7 @@ function engineer() {
 }
 function intern() {
     inquirer.prompt(internPrompt).then(function(internResponse){
-        const intern = new Engineer (internResponse.name, internResponse.id, internResponse.email, internResponse.school);
+        const intern = new Intern (internResponse.name, internResponse.id, internResponse.email, internResponse.school);
         employees.push(intern);
         console.log(employees);
         addEmployee();
@@ -135,7 +135,7 @@ function addEmployee() {
             intern();
         }
         if (result.role == "None") {
-            console.log("Check the run directory for a run.html file.");
+            console.log("Check the 'run' directory for a run.html file.");
             renderCall();
         }
     })
