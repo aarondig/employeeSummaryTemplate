@@ -31,8 +31,9 @@ function start() {
 
 function manager() {
     inquirer.prompt(managerPrompt).then(function(managerResponse){
-        const manager = new Manager (managerResponse.name, managerResponse.email, managerResponse.officeNumber);
-        
+        const manager = new Manager (managerResponse.name, managerResponse.id, managerResponse.email, managerResponse.officeNumber);
+        employees.push(manager);
+        console.log(employees);
         addEmployee();
     })
 }
@@ -59,6 +60,15 @@ const managerPrompt = [
         message: "What is your office number?"
       }];
 
+function engineer() {
+    inquirer.prompt(engineerPrompt).then(function(engineerResponse){
+        const engineer = new Engineer (engineerResponse.name, engineerResponse.id, engineerResponse.email, engineerResponse.github);
+        employees.push(engineer);
+        console.log(employees);
+        addEmployee();
+    })
+}
+
 const engineerPrompt = [ 
        {
          type: "input",
@@ -80,6 +90,15 @@ const engineerPrompt = [
         name: "github",
         message: "What is your Engineer's GitHub username?"
       }];
+
+function intern() {
+    inquirer.prompt(internPrompt).then(function(internResponse){
+        const intern = new Engineer (internResponse.name, internResponse.id, internResponse.email, internResponse.school);
+        employees.push(intern);
+        console.log(employees);
+        addEmployee();
+    })
+}
 
 const internPrompt = [ 
        {
@@ -103,50 +122,35 @@ const internPrompt = [
         message: "Which school does your intern attend?"
       }];
 
+
+function addEmployee() {
+    inquirer.prompt(typeEmployee).then(function(result){
+        if (result.role == "Manager") {
+            manager();
+        }
+        if (result.role == "Engineer") {
+            engineer();
+        }
+        if (result.role == "Intern") {
+            intern();
+        }
+        if (result.role == "None") {
+            console.log("done");
+            render();
+        }
+    })
+}
+
 const typeEmployee = [
       {
         type: "list",
         name: "role",
         message: "Which type of team member would you like to add?",
-        choices: ["Manager","Engineer","Intern"]
+        choices: ["Manager","Engineer","Intern", "None"]
       }];
 
+start();
 
-
-
-managerPrompt().then(function(response) {
-    
-    if (response.list == "Manager"){
-        return inquirer.prompt([
-            {
-              type: "input",
-              name: "name",
-              message: "What is your manager's name?"
-            },
-            {
-                type: "input",
-                name: "name",
-                message: "What is your manager's name?"
-              },
-              {
-               type: "input",
-               name: "id",
-               message: "What is your manager's ID?"
-             },
-             {
-               type: "input",
-               name: "email",
-               message: "What is your manager's email?"
-             },
-             {
-               type: "input",
-               name: "officeNumber",
-               message: "What is your office number?"
-             },
-            
-        ])
-    }
-}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
