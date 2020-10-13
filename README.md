@@ -1,5 +1,11 @@
 
+
 # Employee Summary Generator
+
+<img src="Assets/Banner.png" width="100%" alt="Banner">
+
+<br>
+<br>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -15,7 +21,7 @@ This application creates an HTML page displaying employee information like their
 
 * [Tests](#test)
 
-* [Usage](#usage)
+* [Technology](#technology)
 
 * [License](#license)
 
@@ -41,7 +47,7 @@ Run this command to test:
 
 <br>
 
-## Technology Used
+## Technology
 
 This project uses:
 
